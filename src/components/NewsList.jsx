@@ -8,7 +8,7 @@ const NewsList = ({ searchQuery }) => {
 
     useEffect(() => {
         const getArticles = async () => {
-            const response = await axios.get(`https://newsapi.org/v2/everything?q=${searchQuery?searchQuery:"news"}&apiKey=52b603dcce4a4085b26887595775e123`)
+            const response = await axios.get(`https://newsapi.org/v2/everything?q=${searchQuery?searchQuery:"*"}&apiKey=52b603dcce4a4085b26887595775e123`)
             setArticles(response.data.articles)
             console.log(response)
         }
