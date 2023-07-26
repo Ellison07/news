@@ -8,7 +8,7 @@ const NewsList = ({ searchQuery, currentPage, pageSize }) => {
   useEffect(() => {
     const getArticles = async () => {
       const response = await axios.get(
-        `https://newsapi.org/v2/everything?q=${searchQuery ? searchQuery : '*'}&apiKey=52b603dcce4a4085b26887595775e123&page=${currentPage}&pageSize=${pageSize}`
+        `https://newsapi.org/v2/everything?q=${searchQuery ? searchQuery : '*'}&apiKey=196eb9811b764a98a977b8209fcd1054&page=${currentPage}&pageSize=${pageSize}`
       );
       setArticles(response.data.articles);
     };

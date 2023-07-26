@@ -13,7 +13,6 @@ const App = () => {
     setSearchQuery(event.target.value);
     setCurrentPage(1); // Reset to the first page when search query changes
   };
-
   // Categories array (same as before)
   const categories = [
     'All',
@@ -32,7 +31,6 @@ const App = () => {
     'War',
     // ...
   ];
-
   // Function to handle category selection (same as before)
   const handleCategorySelect = (category) => {
     setSearchQuery(category.toLowerCase());
@@ -43,7 +41,7 @@ const App = () => {
     // Fetch the total number of articles for pagination
     const getTotalArticles = async () => {
       const response = await axios.get(
-        `https://newsapi.org/v2/everything?q=${searchQuery ? searchQuery : '*'}&apiKey=52b603dcce4a4085b26887595775e123`
+        `https://newsapi.org/v2/everything?q=${searchQuery ? searchQuery : '*'}&apiKey=196eb9811b764a98a977b8209fcd1054`
       );
       const totalArticles = response.data.totalResults;
       setTotalPages(Math.ceil(totalArticles / pageSize));

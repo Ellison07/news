@@ -1,12 +1,13 @@
 .news-app {
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 1px;
   margin-top: 20px;
-  margin-left: 30px;
+  margin-left: 10%;
+  margin-right:10%;
   justify-content: center;
   background-color:#eaeaea;
-  font-size: 15px;
+  font-size: 100px;
   line-height: 21px;
   font-family: Roboto,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -14,17 +15,15 @@
 
 .news-item {
   padding: 20px;
-  margin-left: 100px;
-  margin-right: 18%;
   border: 1px solid;
-  width: 60%;
+  width: 90%;
   filter: drop-shadow(0 0 2em rgb(181, 181, 181));
   background-color:white;
 }
 .news-item:hover {
   padding: 20px;
   border: 1px solid;
-  width: 60%;
+  width: 90%;
   filter: drop-shadow(0 0 2em grey);
   border: 1px solid transparent;
 }
