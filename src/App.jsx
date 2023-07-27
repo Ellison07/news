@@ -88,11 +88,11 @@ const App = () => {
         </div>
       </div>
       <NewsList searchQuery={searchQuery} currentPage={currentPage} pageSize={pageSize} />
-      <div className='pagination'>
-        <button onClick={handlePrevPage} disabled={currentPage === 1}>
+      <div className='page'>
+        <button className='pagination' onClick={handlePrevPage} disabled={currentPage === 1}>
           Previous
         </button>
-        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+        <button className='pagination' onClick={handleNextPage} disabled={currentPage === totalPages}>
           Next
         </button>
       </div>
