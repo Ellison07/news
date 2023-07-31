@@ -3,19 +3,21 @@ import axios from 'axios';
 import NewsItem from './NewsItem';
 
 const NewsList = ({ searchQuery, currentPage, pageSize }) => {
+  
+  //Hooks
   const [articles, setArticles] = useState([]);
-
+  
+  //function
   useEffect(() => {
     const getArticles = async () => {
       const response = await axios.get(
-        `https://newsapi.org/v2/everything?q=${searchQuery ? searchQuery : '*'}&apiKey=196eb9811b764a98a977b8209fcd1054&page=${currentPage}&pageSize=${pageSize}`
+        `https://newsapi.org/v2/everything?q=${searchQuery ? searchQuery : '*'}&apiKey=52b603dcce4a4085b26887595775e123&page=${currentPage}&pageSize=${pageSize}`
       );
       setArticles(response.data.articles);
     };
-
     getArticles();
   }, [searchQuery, currentPage, pageSize]);
-
+  //
   return (
     <div className='news-list'>
       {articles.map((article) => {

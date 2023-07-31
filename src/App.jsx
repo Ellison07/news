@@ -5,6 +5,7 @@ import './App.css';
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
   const [totalPages, setTotalPages] = useState(1);
@@ -13,10 +14,10 @@ const App = () => {
     setSearchQuery(event.target.value);
     setCurrentPage(1); // Reset to the first page when search query changes
   };
-  // Categories array (same as before)
+
   const categories = [
     'All',
-    'Politics', // Adding 'All' as a category to show all news
+    'Politics',
     'Business',
     'Technology',
     'Science',
@@ -31,23 +32,53 @@ const App = () => {
     'War',
     // ...
   ];
-  // Function to handle category selection (same as before)
-  const handleCategorySelect = (category) => {
-    setSearchQuery(category.toLowerCase());
-    setCurrentPage(1); // Reset to the first page when category is selected
+
+  const countries = [
+    { code: 'us', name: 'United States' },
+    { code: 'ca', name: 'Canada' },
+    { code: 'in', name: 'India' },
+    { code: 'au', name: 'Australia' },
+    { code: 'br', name: 'Brazil' },
+    { code: 'cn', name: 'China' },
+    // Add more countries as needed
+  ];
+
+  const handleCategorySelect = (selectedItem) => {
+    // Check if the selected item is a country or a category
+    if (categories.includes(selectedItem)) {
+      setSearchQuery(selectedItem.toLowerCase());
+    } else {
+      setSelectedCountry(selectedItem.toLowerCase());
+    }
+    setCurrentPage(1); // Reset to the first page when category or country is selected
   };
 
-  useEffect(() => {
-    // Fetch the total number of articles for pagination
-    const getTotalArticles = async () => {
+  const fetchNewsByCountry = async () => {
+    try {
       const response = await axios.get(
-        `https://newsapi.org/v2/everything?q=${searchQuery ? searchQuery : '*'}&apiKey=196eb9811b764a98a977b8209fcd1054`
+        `https://newsapi.org/v2/top-headlines?country=${selectedCountry}&apiKey=52b603dcce4a4085b26887595775e123`
       );
       const totalArticles = response.data.totalResults;
       setTotalPages(Math.ceil(totalArticles / pageSize));
-    };
-    getTotalArticles();
-  }, [searchQuery, pageSize]);
+    } catch (error) {
+      console.error('Error fetching news by country:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedCountry) {
+      fetchNewsByCountry();
+    } else {
+      const getTotalArticles = async () => {
+        const response = await axios.get(
+          `https://newsapi.org/v2/everything?q=${searchQuery ? searchQuery : '*'}&apiKey=52b603dcce4a4085b26887595775e123`
+        );
+        const totalArticles = response.data.totalResults;
+        setTotalPages(Math.ceil(totalArticles / pageSize));
+      };
+      getTotalArticles();
+    }
+  }, [searchQuery, selectedCountry, pageSize]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
@@ -62,7 +93,6 @@ const App = () => {
       <div className='nav-bar'>
         <div className='nav-links'>
           <h1>News Categories</h1>
-          <b></b>
           <div className='dropdown'>
             <button className='nav-link'>
               Categories
@@ -70,6 +100,18 @@ const App = () => {
                 {categories.map((category, index) => (
                   <a key={index} onClick={() => handleCategorySelect(category)}>
                     {category}
+                  </a>
+                ))}
+              </div>
+            </button>
+          </div>
+          <div className='dropdown'>
+            <button className='nav-link'>
+              Countries
+              <div className='dropdown-content'>
+                {countries.map((country) => (
+                  <a key={country.code} onClick={() => handleCategorySelect(country.code)}>
+                    {country.name}
                   </a>
                 ))}
               </div>
@@ -87,7 +129,11 @@ const App = () => {
           />
         </div>
       </div>
-      <NewsList searchQuery={searchQuery} currentPage={currentPage} pageSize={pageSize} />
+      <NewsList
+        searchQuery={selectedCountry || searchQuery}
+        currentPage={currentPage}
+        pageSize={pageSize}
+      />
       <div className='page'>
         <button className='pagination' onClick={handlePrevPage} disabled={currentPage === 1}>
           Previous
